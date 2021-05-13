@@ -3,9 +3,10 @@ require 'yaml'
 
 module MiniYaml
   class Linter
-    def initialize(yaml, paranoid: true)
+    def initialize(yaml, paranoid: true, columns: 80)
       @comment_map = nil
       @parsed = parse(yaml)
+      @columns = columns
 
       if paranoid
         before, before_e, after, after_e = nil
@@ -88,7 +89,7 @@ module MiniYaml
             prev_char = line[index - 1]
             next_char = line[index + 1]
 
-            if col > 80 && char == " " && prev_char.match?(/\S/) && next_char.match?(/\S/)
+            if col > @columns && char == " " && prev_char.match?(/\S/) && next_char.match?(/\S/)
               buf << "\n"
               col = 0
             else
@@ -124,9 +125,9 @@ module MiniYaml
 
       val = val.to_s
 
-      if val.include?("\n") || val.length > 80
+      if val.include?("\n") || val.length > @columns
         lines = val.split("\n")
-        force_short = lines.map(&:length).max > 80
+        force_short = lines.map(&:length).max > @columns
         strip_trailing_newline = val[-1] != "\n"
 
         if force_short

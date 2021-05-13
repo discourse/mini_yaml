@@ -25,4 +25,22 @@ class LinterTest < Minitest::Test
 
     assert_equal(expected, linted)
   end
+
+  def test_multiline
+    multiline = <<~YAML
+      - this text is long let's ensure it is displayed as multiline
+    YAML
+
+    linted = MiniYaml::Linter.new(multiline, columns: 20).dump
+
+    expected = <<~YAML
+      ---
+      - >-
+        this text is long let's
+        ensure it is displayed
+        as multiline
+    YAML
+
+    assert_equal(expected, linted)
+  end
 end
