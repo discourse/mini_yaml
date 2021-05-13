@@ -25,7 +25,48 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+
+To lint an indevidual file use:
+
+```ruby
+lint-yaml FILENAME
+```
+
+To amend an existing YAML file use:
+
+```ruby
+yaml = <<~YAML
+  # comment
+  - "a"
+  - b
+YAML
+
+linter = MiniYaml::Linter.new(yaml)
+linter.contents << "c"
+
+puts linter.dump
+
+```
+
+This will output:
+
+```
+---
+# comment
+- a
+- b
+- c
+```
+
+## Why not use prettier or some other tool?
+
+mini_yaml is deliberately opinionated. It enforces line length, chooses quoting styles and maintains comments.
+
+Prettier unfortunately is not as opinionated, it will not enforce quoting styles, line length and styles for multiple line strings and so on. This means that you can not rely on it to force consistent styling of YAML in your project.
+
+## Why not use mini-yaml?
+
+MiniYaml is extremely experimental, it includes a "paranoid" mode by default which makes it impossible that it will corrupt YAML, that said, it certainly may have bugs and may fail to handle all sorts of YAML files.
 
 ## Development
 
