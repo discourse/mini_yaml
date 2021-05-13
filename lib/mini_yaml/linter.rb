@@ -1,5 +1,6 @@
 # frozen_string_literal: true
-require 'yaml'
+
+require "yaml"
 
 module MiniYaml
   class Linter
@@ -75,7 +76,6 @@ module MiniYaml
       buf = +""
 
       val.split("\n").each do |line|
-
         if line.match?(/^\s/)
           buf.rstrip!
           buf << "\n"
@@ -103,7 +103,6 @@ module MiniYaml
           buf << "\n" if buf[-1] != "\n"
           buf << "\n"
         end
-
       end
 
       buf.rstrip!
@@ -142,7 +141,7 @@ module MiniYaml
         end
 
         if comment
-          result << " ##{comment.gsub(/$#/,"").gsub("\n", " ")}"
+          result << " ##{comment.gsub(/$#/, "").gsub("\n", " ")}"
         end
         result << "\n"
         result << val
@@ -200,7 +199,8 @@ module MiniYaml
             _dump(node: value, buffer: buffer, indent: indent + 2, path: path + ":#{key}", prev_indent: indent)
           else
             buffer << " "
-            _dump(node: value, buffer: buffer, indent: indent + key.length + 2, path: path + ":#{key}", prev_indent: indent)
+            _dump(node: value, buffer: buffer, indent: indent + key.length + 2, path: path + ":#{key}",
+                  prev_indent: indent)
           end
         end
       else
@@ -279,6 +279,7 @@ module MiniYaml
 
     class State
       attr_accessor :lines, :comment_map, :nodes, :locations
+
       def initialize(yaml)
         @lines = yaml.split("\n")
         @comment_map = {}
@@ -325,6 +326,7 @@ module MiniYaml
         if node.children.count > 1
           raise "document with multiple children is not supported"
         end
+
         val = to_simple(node.children.first, location: location, state: state)
 
         comment = find_comment(state.lines, nil, state.nodes[-1])
