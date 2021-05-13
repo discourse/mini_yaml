@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
 
   spec.summary       = "YAML editor and formatter"
   spec.description   = "YAML editor that preserves comments and formats YAML using opinionated rules"
-  spec.homepage      = "https://discourse/mini_yaml"
+  spec.homepage      = "https://github.com/discourse/mini_yaml"
   spec.license       = "MIT"
   spec.required_ruby_version = Gem::Requirement.new(">= 2.5.0")
 
