@@ -43,4 +43,23 @@ class LinterTest < Minitest::Test
 
     assert_equal(expected, linted)
   end
+
+  def test_edits
+    yaml = <<~YAML
+      # a comment
+      - hello world
+    YAML
+
+    linter = MiniYaml::Linter.new(yaml)
+    linter.contents << "another '\" world"
+
+    expected = <<~YAML
+      ---
+      # a comment
+      - hello world
+      - "another '\\" world"
+    YAML
+
+    assert_equal(expected, linter.dump)
+  end
 end
